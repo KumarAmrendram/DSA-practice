@@ -1,23 +1,25 @@
-#include <iostream>
+#include<iostream>
+#include <bits/stdc++.h> 
 using namespace std;
 
-bool isPossible(int arr[], int n, int m, int mid)
+bool isPossible(vector<int> arr, int n, int m, int mid)
 {
     int pageSum = 0;
     int studentCount = 1;
 
     for (int i = 0; i < n; i++)
-        if(pageSum += arr[i] <= mid){
+        if(pageSum + arr[i] <= mid){
             pageSum += arr[i];
     } else {
         studentCount ++;
         if (studentCount > m || arr[i] > mid){
             return false;
         }
+            pageSum = arr[i];
     }
     return true;
 }
-int allocateBooks(int arr[], int n, int m)
+int allocateBooks(vector<int> arr, int n, int m)
 {
     int s = 0;
     int sum = 0;
@@ -44,10 +46,5 @@ int allocateBooks(int arr[], int n, int m)
 
         mid = s + (e - s) / 2;
     }
-}
-
-int main()
-{
-
-    return 0;
+    return ans;
 }

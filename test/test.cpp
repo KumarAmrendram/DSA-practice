@@ -1,82 +1,71 @@
 #include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define N 100
-
-class Stack
+bool isPossible(int boards[], int n, int m, int mid)
 {
-    int *arr;
-    char top;
+    int partitionSum = 0;
+    int painterSum = 1;
 
-public:
-    Stack()
-    {
-        arr = new int[N];
-        top = -1;
-    }
-
-    void push(int x)
-    {
-        if (top == N - 1)
+    for (int i = 0; i < n; i++)
+        if (partitionSum + boards[i] <= mid)
         {
-            cout << "Stack overflow";
-            return;
+            partitionSum += boards[i];
         }
-        top++;
-        arr[top] = x;
-    }
-
-    void pop()
-    {
-        if (top == -1)
+        else
         {
-            cout << "Stack underflow";
-            return;
+            painterSum++;
+            if (painterSum > m || boards[i] > mid)
+            {
+                return false;
+            }
+            partitionSum = boards[i];
         }
-        top--;
-    }
-
-    char Top()
-    {
-        if (top == -1)
-        {
-            cout << "No element in stack" << endl;
-            return -1;
-        }
-        return arr[top];
-    }
-
-    bool isEmpty()
-    {
-        return top == -1;
-    }
-
-    bool isFull()
-    {
-        return top == N;
-    }
-};
-
-void reverseString(string &str)
+    return true;
+}
+int findLargestMinDistance(int boards[], int k)
 {
+    int s = 0;
+    int sum = 0;
+    int n = sizeof(boards) / sizeof(boards[0]);
 
-    char chr;
-    Stack st;
-    for (int i = 0; i < str.length(); i++)
+    for (int i = 0; i < n; i++)
     {
-        st.push(str[i]);
+        sum += boards[i];
     }
+    int e = sum;
 
-    for (int i = 0; i < str.length(); i++)
+    int mid = s + (e - s) / 2;
+    int ans = -1;
+    while (s <= e)
     {
-       str[i]=char(st.Top());
-        st.pop();
+        if (isPossible(boards, n, k, mid))
+        {
+            ans = mid;
+            e = mid - 1;
+        }
+        else
+        {
+            s = mid + 1;
+        }
+
+        mid = s + (e - s) / 2;
     }
+    return ans;
 }
 
-int main(){
-    string str = "hello";
-    reverseString(str);
-    cout<<str;
+
+int size(int arr[]){
+   int n = sizeof(arr)/sizeof(arr[0]);
+   return n;
+}
+
+int main()
+{
+    int arr[4] = {10,20,30,40,};
+    int n = 4, k = 2;
+    // cout<<findLargestMinDistance(arr,2);
+    cout<<size(arr);
+
     return 0;
 }
